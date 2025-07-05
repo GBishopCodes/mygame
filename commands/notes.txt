@@ -1,0 +1,8 @@
+Ignorable file for notes:
+
+
+Structure below seems to denote a functional strcuture for mass 
+updates on objects of the same type.
+=================================================================
+py from typeclasses.sittables import Sittable ;
+       [sittable.at_object_creation() for sittable in Sittable.objects.all()]
