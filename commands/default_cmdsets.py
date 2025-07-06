@@ -39,7 +39,7 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         #
         self.add(mycommands.MyCmdSet)
         self.add(CmdQuickFind())
-        self.add(sittables.CmdNoSitStand())
+        self.add(sittables.CmdNoSitStand)
 
 class AccountCmdSet(default_cmds.AccountCmdSet):
     """

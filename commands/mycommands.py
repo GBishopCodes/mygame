@@ -8,7 +8,6 @@ class MyCmdSet(CmdSet):
         This method is called when the cmdset is created.
         """
         self.add(CmdEcho())
-        self.add(CmdTalk())
         self.add(CmdHit())
         self.add(MyCmdGet())
 
@@ -75,32 +74,3 @@ class CmdHit(Command):
             exclude=[self.caller, target]
         )
         
-class CmdTalk(Command):
-    """
-    Allows speaking to this object.
-    
-    Usage:
-    talk
-    """
-    key = "talk"
-    locks = "cmd:all()" 
-
-    def func(self):
-        
-        response = "|wProfessor Asterisk|n nods, her eyes never leaving the terminal. 'The first step is always the hardest. Well done for taking it.'"
-        self.caller.msg(response)
-
-class ProfessorCmdSet(MyCmdSet):
-    """
-    This cmdset is specifically for the Professor NPC.
-    It can be extended with more commands specific to the NPC.
-    """
-    key = "professor_cmdset"
-
-    def at_cmdset_creation(self):
-        """
-        Populates the cmdset with commands specific to the Professor NPC.
-        """
-        super().at_cmdset_creation()
-        # Add any additional commands specific to the Professor NPC here.
-        self.add(CmdTalk())
