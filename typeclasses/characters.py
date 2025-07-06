@@ -9,7 +9,7 @@ creation commands.
 """
 
 from evennia.objects.objects import DefaultCharacter
-
+from evennia.utils import search, delay
 from .objects import ObjectParent
 import random
 
@@ -48,7 +48,39 @@ class Character(ObjectParent, DefaultCharacter):
             "energy": self.db.energy,
             "health": self.db.health
         }
-    pass
+    
+    def at_death(self):
+        """
+        This hook is called when health reaches 0.
+        """
+        #Set Destination
+        limbo_room = search.search_object_by_tag("limbo", category="rooms")
+        study_room = search.search_object_by_tag("respawn_point", category="rooms")
+
+        #A safeguard
+        if not limbo_room or not study_room:
+            self.location.msg_contents(f"|r{self.key}'s essence evaporates into fog...|0n")
+            self.move_to(self.home, quiet=True)
+            return
+    
+        # To Limbo
+        self.move_to(limbo_room[0], quiet=True)
+        self.msg("|xYou feel yourself lose grip to The Y'aand...|n")
+
+        self.db.health = self.db.max_health or 100
+
+        #Delay Return
+        delay(3, self.return_from_limbo, destination=study_room[0])
+
+    def return_from_limbo(self, destination):
+        """
+        A helper spell called by the 'delay' function to handle the final step.
+        """
+        self.msg("\n|wThe grey fog dissolves, and you find yourself in a familiar place.|n")
+        self.move_to(destination, quiet=True)
+        # We must manually trigger a "look" for the player.
+        self.execute_cmd("look")
+
 
     def at_pre_move(self, destination, **kwargs):
         """

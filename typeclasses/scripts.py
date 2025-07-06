@@ -14,6 +14,18 @@ just overloads its hooks to have it perform its function.
 
 from evennia.scripts.scripts import DefaultScript
 
+class CombatHandler(DefaultScript):
+    """
+    This is a specialized Script for handling combat in the game.
+    It can be used to track combat rounds, manage combatants, and
+    handle combat-related events.
+
+    It inherits from DefaultScript and can be customized by overriding
+    its methods and properties.
+    """
+    
+    pass
+
 
 class Script(DefaultScript):
     """

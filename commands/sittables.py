@@ -16,6 +16,19 @@ class CmdStand(Command):
     def func(self):
         self.obj.do_stand(self.caller)
 
+class CmdNoSitStand(Command):
+    """
+    Sit down or stand up from a sittable object.
+    """
+    key = "sit"
+    aliases = ["stand"]
+
+    def func(self):
+        if self.cmdname == "sit":
+            self.msg("You have nothing to sit on.")
+        else:
+            self.msg("You are not sitting down.")    
+
 class CmdSetSit(CmdSet):
     """
     This is the cmdset for objects that can be sat on.
