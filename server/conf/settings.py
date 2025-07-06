@@ -33,6 +33,9 @@ from evennia.settings_default import *
 
 # This is the name of your game. Make it catchy!
 SERVERNAME = "mygame"
+BASIC_MAP_SIZE = 5
+SEARCH_MULTIMATCH_REGEX = r"(?P<number>[0-9]+)-(?P<name>[^-]*)(?P<args>.*)"
+SEARCH_MULTIMATCH_TEMPLATE = " {number}-{name}{aliases}{info}\n"
 
 
 ######################################################################

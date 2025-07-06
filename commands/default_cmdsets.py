@@ -18,6 +18,9 @@ from evennia import default_cmds
 from . import mycommands
 from commands.command import CmdQuickFind
 from commands import sittables
+from evennia.contrib.grid.ingame_map_display import MapDisplayCmdSet
+from evennia.contrib.grid import simpledoor
+from evennia.contrib.rpg.rpsystem import RPSystemCmdSet
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -40,6 +43,12 @@ class CharacterCmdSet(default_cmds.CharacterCmdSet):
         self.add(mycommands.MyCmdSet)
         self.add(CmdQuickFind())
         self.add(sittables.CmdNoSitStand)
+        self.add(sittables.CmdSit2)
+        self.add(sittables.CmdStand2)
+        self.add(MapDisplayCmdSet)
+        self.add(simpledoor.SimpleDoorCmdSet)
+        self.add(RPSystemCmdSet())
+        self.add(mycommands.CmdLook())
 
 class AccountCmdSet(default_cmds.AccountCmdSet):
     """

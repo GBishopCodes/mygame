@@ -1,6 +1,7 @@
 from commands.command import Command
 from evennia import CmdSet
 from evennia import default_cmds
+from evennia.commands.default import general
 
 class MyCmdSet(CmdSet):
     def at_cmdset_creation(self):
@@ -30,6 +31,17 @@ class MyCmdGet(default_cmds.CmdGet):
     def func(self):
         super().func()
         self.caller.msg(str(self.caller.location.contents))
+
+class CmdLook(general.CmdLook):
+    """
+    A custom command that looks and shows the map simultaneously.
+    """
+
+    key = "look"
+
+    def func(self):
+        super().func()
+        self.caller.execute_cmd("map")
 
 class CmdHit(Command):
     """

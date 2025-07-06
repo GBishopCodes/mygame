@@ -1,20 +1,48 @@
 from evennia import Command, CmdSet
+from evennia import InterruptCommand
 
-class CmdSit(Command):
+class CmdSit2(Command):
     """
-    Sit down on chair or similar object.
+    Sit down.
+
+    Usage:
+        sit <sittable>
     """
     key = "sit"
-    def func(self):
-        self.obj.do_sit(self.caller)
 
-class CmdStand(Command):
+    def parse(self):
+        self.args = self.args.strip()
+        if not self.args:
+            self.caller.msg("Sit on what?")
+            raise InterruptCommand
+
+    def func(self):
+        sittable = self.caller.search(self.args)
+        if not sittable:
+            return
+        try:
+            sittable.do_sit(self.caller)
+        except AttributeError:
+            self.caller.msg("You can't sit on that!")
+
+class CmdStand2(Command):
     """
-    Stand up from chair or similar object.
+    Stand up.
+
+    Usage:
+        stand
+
     """
     key = "stand"
+
     def func(self):
-        self.obj.do_stand(self.caller)
+        caller = self.caller
+        # if we are sitting, this should be set on us
+        sittable = caller.db.is_sitting
+        if not sittable:
+            caller.msg("You are not sitting down.")
+        else:
+            sittable.do_stand(caller)
 
 class CmdNoSitStand(Command):
     """
@@ -38,5 +66,5 @@ class CmdSetSit(CmdSet):
         """
         This method is called when the cmdset is created.
         """
-        self.add(CmdSit())
-        self.add(CmdStand())
+        self.add(CmdSit2())
+        self.add(CmdStand2())
